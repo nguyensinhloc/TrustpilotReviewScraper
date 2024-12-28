@@ -13,7 +13,7 @@ pathspec==0.12.1
 platformdirs==4.2.0
 requests~=2.32.3
 soupsieve==2.5
-urllib3==2.2.1
+urllib3==2.3.0
 
 matplotlib~=3.10.0
 scipy~=1.15.0rc2
