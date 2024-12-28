@@ -1,21 +1,21 @@
-beautifulsoup4==4.12.3
+beautifulsoup4~=4.13.0b2
 black==24.3.0
-bs4==0.0.2
+bs4~=0.0.2
 certifi==2024.2.2
 charset-normalizer==3.3.2
 click==8.1.7
-fake-useragent==1.5.1
+fake-useragent~=2.0.3
 idna==3.6
 lxml==5.1.0
 mypy-extensions==1.0.0
 packaging==24.0
 pathspec==0.12.1
 platformdirs==4.2.0
-requests==2.31.0
+requests~=2.32.3
 soupsieve==2.5
 urllib3==2.2.1
 
 matplotlib~=3.10.0
-scipy~=1.14.1
+scipy~=1.15.0rc2
 scikit-learn~=1.6.0
-selenium~=4.18.1
+selenium~=4.27.1
