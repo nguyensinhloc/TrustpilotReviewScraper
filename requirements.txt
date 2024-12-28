@@ -1,5 +1,5 @@
 beautifulsoup4~=4.13.0b2
-black==24.3.0
+black==24.10.0
 bs4~=0.0.2
 certifi==2024.2.2
 charset-normalizer==3.3.2
