@@ -22,6 +22,20 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.ui import WebDriverWait
 from sklearn.feature_extraction.text import CountVectorizer
+from sklearn.model_selection import train_test_split
+from sklearn.linear_model import LogisticRegression, LinearRegression
+from sklearn.tree import DecisionTreeRegressor
+from sklearn.ensemble import RandomForestRegressor
+from sklearn.metrics import (
+    mean_squared_error,
+    mean_absolute_error,
+    r2_score,
+    accuracy_score,
+    precision_score,
+    recall_score
+)
+import numpy as np
+import pandas as pd
 
 logging.basicConfig(
     level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s"
@@ -579,6 +593,64 @@ def group_and_visualize_reviews_by_location(reviews):
     return location_groups
 
 
+def prepare_review_data(reviews):
+    vectorizer = CountVectorizer(stop_words='english', max_features=100)
+
+    texts = [review['text'] for review in reviews if review['text']]
+    ratings = [review['rating'] for review in reviews if review['text']]
+
+    X = vectorizer.fit_transform(texts).toarray()
+    y = np.array(ratings)
+
+    return X, y, vectorizer
+
+
+def compare_regression_methods(X, y):
+    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+
+    models = {
+        'Linear Regression': LinearRegression(),
+        'Decision Tree': DecisionTreeRegressor(),
+        'Random Forest': RandomForestRegressor()
+    }
+
+    metrics = {
+        'MSE': mean_squared_error,
+        'MAE': mean_absolute_error,
+        'R2 Score': r2_score
+    }
+
+    results = {}
+
+    for name, model in models.items():
+        model.fit(X_train, y_train)
+        y_pred = model.predict(X_test)
+
+        model_results = {}
+        for metric_name, metric_func in metrics.items():
+            model_results[metric_name] = metric_func(y_test, y_pred)
+
+        results[name] = model_results
+
+    return results
+
+
+def plot_model_comparison(results):
+    metrics = list(list(results.values())[0].keys())
+
+    plt.figure(figsize=(15, 5))
+
+    for i, metric in enumerate(metrics, 1):
+        plt.subplot(1, len(metrics), i)
+        values = [results[model][metric] for model in results]
+        plt.bar(results.keys(), values)
+        plt.title(f'{metric} Comparison')
+        plt.xticks(rotation=45)
+
+    plt.tight_layout()
+    plt.savefig('model_comparison.png')
+    plt.close()
+
 def main():
     args = parse_arguments()
     domain = args.domain
@@ -679,6 +751,16 @@ def main():
                 logger.info("Strength: (!) strong  (+) moderate")
             else:
                 logger.info("No statistically significant correlations found")
+            X, y, vectorizer = prepare_review_data(reviews)
+            comparison_results = compare_regression_methods(X, y)
+
+            for model, metrics in comparison_results.items():
+                print(f"\n{model} Results:")
+                for metric, value in metrics.items():
+                    print(f"{metric}: {value}")
+
+            plot_model_comparison(comparison_results)
+            print("\nModel comparison chart saved as 'model_comparison.png'")
 
         # Only perform visualization if flag is set
         if args.visualize:
