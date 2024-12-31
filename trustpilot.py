@@ -12,6 +12,7 @@ from urllib.parse import parse_qs, urlparse
 from urllib.robotparser import RobotFileParser
 
 import matplotlib.pyplot as plt
+import numpy as np
 import requests
 from bs4 import BeautifulSoup
 from fake_useragent import UserAgent
@@ -21,21 +22,16 @@ from selenium.common.exceptions import TimeoutException, WebDriverException
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.ui import WebDriverWait
-from sklearn.feature_extraction.text import CountVectorizer
-from sklearn.model_selection import train_test_split
-from sklearn.linear_model import LogisticRegression, LinearRegression
-from sklearn.tree import DecisionTreeRegressor
 from sklearn.ensemble import RandomForestRegressor
+from sklearn.feature_extraction.text import CountVectorizer
+from sklearn.linear_model import LinearRegression
 from sklearn.metrics import (
     mean_squared_error,
     mean_absolute_error,
-    r2_score,
-    accuracy_score,
-    precision_score,
-    recall_score
+    r2_score
 )
-import numpy as np
-import pandas as pd
+from sklearn.model_selection import train_test_split
+from sklearn.tree import DecisionTreeRegressor
 
 logging.basicConfig(
     level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s"
