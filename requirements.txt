@@ -16,7 +16,7 @@ soupsieve==2.6
 urllib3==2.3.0
 matplotlib~=3.10.0
 scipy~=1.15.0rc2
-scikit-learn~=1.6.0
+scikit-learn~=1.6.1
 selenium~=4.27.1
 numpy~=2.2.1
 pandas~=2.2.3
